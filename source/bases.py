@@ -1,6 +1,7 @@
 #!python
 
 import string
+import math
 # Hint: Use these string constants to encode/decode hexadecimal digits and more
 # string.digits is '0123456789'
 # string.hexdigits is '0123456789abcdefABCDEF'
@@ -17,13 +18,45 @@ def decode(digits, base):
     return: int -- integer representation of number (in base 10)"""
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
-    # TODO: Decode digits from binary (base 2)
-    # ...
-    # TODO: Decode digits from hexadecimal (base 16)
-    # ...
-    # TODO: Decode digits from any base (2 up to 36)
-    # ...
+    
+    # reverse digits so index corresponds with power
+    digits = digits[::-1]
+    
+    # binary
+    if set(digits) <= set("01"): 
+        as_int = 0
+        # use index as power
+        for index, digit in enumerate(reversed_digits):
+            if digit is "1":
+                as_int += math.pow(base, index)
 
+        return int(as_int)
+    
+    # hexadecimal
+    if "0x" in digits:
+
+        # get digits only 
+        digits = digits[:-2]
+
+        # use lowercase for check against string.hexdigits
+        digits = digits.lower()
+
+        as_int = 0
+        for index, digit in enumerate(digits):
+            try:
+                int(digit)
+                as_int += digit * math.pow(base, index) 
+            except:
+                as_int += string.hexdigits.index(digit) * math.pow(base, index)
+
+        return int(as_int)
+
+    # base 2 - 36
+    as_int = 0
+    for index, digit in enumerate(digits):
+        as_int += int(digit) * math.pow(base, index) 
+
+    return as_int
 
 def encode(number, base):
     """Encode given number in base 10 to digits in given base.
@@ -79,3 +112,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
