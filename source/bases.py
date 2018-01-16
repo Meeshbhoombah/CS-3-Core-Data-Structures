@@ -26,7 +26,7 @@ def decode(digits, base):
     if set(digits) <= set("01"): 
         as_int = 0
         # use index as power
-        for index, digit in enumerate(reversed_digits):
+        for index, digit in enumerate(digits):
             if digit is "1":
                 as_int += math.pow(base, index)
 
@@ -54,7 +54,7 @@ def decode(digits, base):
     # base 2 - 36
     as_int = 0
     for index, digit in enumerate(digits):
-        as_int += int(digit) * math.pow(base, index) 
+        as_int += string.hexdigits.index(digit) * math.pow(base, index) 
 
     return as_int
 
@@ -67,12 +67,19 @@ def encode(number, base):
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
     # Handle unsigned numbers only for now
     assert number >= 0, 'number is negative: {}'.format(number)
+    
+    # limit hexdigits and make all upcase
+    hexdigit_string = string.digits + string.ascii_lowercase
+
     # TODO: Encode number in binary (base 2)
-    # ...
+    #
     # TODO: Encode number in hexadecimal (base 16)
     # ...
     # TODO: Encode number in any base (2 up to 36)
-    # ...
+    if number < base:
+        return hexdigit_string[number]
+    else:
+        return encode(number // base, base) + hexdigit_string[number % base]
 
 
 def convert(digits, base1, base2):
@@ -91,7 +98,8 @@ def convert(digits, base1, base2):
     # TODO: Convert digits from base 10 to base 16 (and vice versa)
     # ...
     # TODO: Convert digits from any base to any base (2 up to 36)
-    # ...
+    digits = int(decode(digits, base1))
+    return encode(digits, base2)
 
 
 def main():
