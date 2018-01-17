@@ -40,11 +40,11 @@ def collatz(n):
 
     # if even
     if n % 2 == 0:
-        collatz(n / 2)
+        return 1 + collatz(n / 2)
 
     # if odd
     if n % 2 == 1:
-        collatz(3 * n - 1)
+        return 1 + collatz(3 * n - 1)
 
 
 def main():
