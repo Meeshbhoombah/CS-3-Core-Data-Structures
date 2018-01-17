@@ -19,7 +19,6 @@ def factorial_iterative(n):
     product = 1
     for i in range(1, n + 1):
         product *= i
-        print(product)
 
     return product
         
@@ -34,9 +33,27 @@ def factorial_recursive(n):
         return n * factorial_recursive(n - 1)
 
 
+def collatz(n):
+    # base case
+    if n is 1:
+        return 1
+
+    # if even
+    if n % 2 == 0:
+        collatz(n / 2)
+
+    # if odd
+    if n % 2 == 1:
+        collatz(3 * n - 1)
+
+
 def main():
     import sys
     args = sys.argv[1:]  # Ignore script file name
+
+    # collatz test
+    collatz(4)
+
     if len(args) == 1:
         num = int(args[0])
         result = factorial(num)
