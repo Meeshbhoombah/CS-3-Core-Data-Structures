@@ -1,11 +1,11 @@
 #!python
 
+import re
 import string
 # Hint: Use these string constants to ignore capitalization and/or punctuation
 # string.ascii_lowercase is 'abcdefghijklmnopqrstuvwxyz'
 # string.ascii_uppercase is 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 # string.ascii_letters is ascii_lowercase + ascii_uppercase
-
 
 def is_palindrome(text):
     """A string of characters is a palindrome if it reads the same forwards and
@@ -13,15 +13,19 @@ def is_palindrome(text):
     # implement is_palindrome_iterative and is_palindrome_recursive below, then
     # change this to call your implementation to verify it passes all tests
     assert isinstance(text, str), 'input is not a string: {}'.format(text)
-    #return is_palindrome_iterative(text)
-    return is_palindrome_recursive(text)
+    return is_palindrome_iterative(text)
+    #return is_palindrome_recursive(text)
 
 
 def is_palindrome_iterative(text):
-    # TODO: implement the is_palindrome function iteratively here
+    # implement the is_palindrome function iteratively here
     # once implemented, change is_palindrome to call is_palindrome_iterative
     # to verify that your iterative implementation passes all tests
-    # TODO - ADAPT FOR PUNCTUATUION
+    
+    # TODO - reimplement without regex 
+    text = re.sub('[^a-zA-Z]+', '', text)
+    text = text.lower()
+
     if len(text) <= 1:
         return True
     else:
@@ -42,6 +46,11 @@ def is_palindrome_recursive(text):
     # implement the is_palindrome function recursively here
     # once implemented, change is_palindrome to call is_palindrome_recursive
     # to verify that your iterative implementation passes all tests
+
+    # TODO - reimplement without regex 
+    text = re.sub('[^a-zA-Z]+', '', text)
+    text = text.lower()
+
     if len(text) < 1:
         return True
     else:
