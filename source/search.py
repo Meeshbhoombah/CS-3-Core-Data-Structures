@@ -57,8 +57,7 @@ def binary_search_iterative(array, item):
 
 
 def binary_search_recursive(array, item):
-    # TODO: implement binary search recursively here
-    pass
+    # implement binary search recursively here
     # once implemented, change binary_search to call binary_search_recursive
     # to verify that your recursive implementation passes all tests
     if len(array) == 0:
