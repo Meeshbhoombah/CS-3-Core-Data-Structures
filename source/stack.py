@@ -7,7 +7,7 @@ from linkedlist import LinkedList
 # to use this Stack implementation to verify it passes all tests
 class LinkedStack(object):
 
-    def __init__(self, iterable=None):
+    def __init__(self, iterable = None):
         """Initialize this stack and push the given items, if any."""
         # Initialize a new linked list to store the items
         self.list = LinkedList()
@@ -21,28 +21,57 @@ class LinkedStack(object):
 
     def is_empty(self):
         """Return True if this stack is empty, or False otherwise."""
-        # TODO: Check if empty
-        return True
+        items = self.list
+
+        # if items is not empty
+        if items.length() != 0:
+            return False
+        else:
+            return True
 
     def length(self):
         """Return the number of items in this stack."""
-        # TODO: Count number of items
+        return self.list.length()
 
     def push(self, item):
         """Insert the given item on the top of this stack.
         Running time: O(???) – Why? [TODO]"""
-        # TODO: Push given item
+        # Push given item
+        items = self.list
+
+        return items.append(item)
 
     def peek(self):
         """Return the item on the top of this stack without removing it,
         or None if this stack is empty."""
-        # TODO: Return top item, if any
+        items = self.list
+        # return top item, if any
+        try:
+            return items.tail.data
+        except AttributeError:
+            return None
+
 
     def pop(self):
         """Remove and return the item on the top of this stack,
         or raise ValueError if this stack is empty.
         Running time: O(???) – Why? [TODO]"""
-        # TODO: Remove and return top item, if any
+
+        # cannot pop if stack is empty
+        if self.length() == 0:
+            raise ValueError("pop() method cannot be called on Stack()"
+                            +  " with length of {}".format(self.length))
+
+        items = self.list
+
+        # does items have a tail?
+        try:
+            item = items.tail.data
+        except AttributeError:
+            return None
+        
+        items.delete(item)
+        return item
 
 
 # Implement ArrayStack below, then change the assignment at the bottom
@@ -63,30 +92,52 @@ class ArrayStack(object):
 
     def is_empty(self):
         """Return True if this stack is empty, or False otherwise."""
-        # TODO: Check if empty
+        # Check if empty
+        if not self.list:
+            return True
+        else:
+            return False
 
     def length(self):
         """Return the number of items in this stack."""
-        # TODO: Count number of items
+        # Count number of items
+        items = self.list
+
+        return len(items)
 
     def push(self, item):
         """Insert the given item on the top of this stack.
         Running time: O(???) – Why? [TODO]"""
-        # TODO: Insert given item
+        # Insert given item
+        items = self.list
+        items.append(item)
+
+        return self.peek() # O(1)
 
     def peek(self):
         """Return the item on the top of this stack without removing it,
         or None if this stack is empty."""
-        # TODO: Return top item, if any
+        # Return top item, if any
+        items = self.list
+
+        if self.is_empty(): 
+            return None
+        else:
+            return items[-1]
 
     def pop(self):
         """Remove and return the item on the top of this stack,
         or raise ValueError if this stack is empty.
         Running time: O(???) – Why? [TODO]"""
-        # TODO: Remove and return top item, if any
+        # Remove and return top item, if any
+        if self.is_empty():
+            raise ValueError("pop() method cannot be called on Stack()"
+                            +  " with length of {}".format(self.length))
+
+        return items.pop() # O(1)
 
 
 # Implement LinkedStack and ArrayStack above, then change the assignment below
 # to use each of your Stack implementations to verify they each pass all tests
-Stack = LinkedStack
-# Stack = ArrayStack
+# Stack = LinkedStack
+Stack = ArrayStack

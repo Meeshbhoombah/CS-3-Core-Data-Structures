@@ -14,6 +14,8 @@ class StackTest(unittest.TestCase):
 
     def test_init_with_list(self):
         s = Stack(['A', 'B', 'C'])
+        print(s)
+        print(s.list)
         assert s.peek() == 'C'
         assert s.length() == 3
         assert s.is_empty() is False
