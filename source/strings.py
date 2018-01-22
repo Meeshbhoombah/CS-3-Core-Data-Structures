@@ -17,7 +17,28 @@ def find_index(text, pattern):
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
     # TODO: Implement find_index here (iteratively and/or recursively)
+    if pattern == '':
+        return 0
 
+    patt_index = 0
+    matches = 0
+    for text_index in range(offset, len(text)):
+        for patt_index in range(len(pattern)):
+            # Prevent index out of range errors.
+            if text_index + patt_index >= len(text):
+                break
+
+            # Break loop if there's a char mismatch.
+            if text[text_index + patt_index] != pattern[patt_index]:
+                matches = 0
+                break
+
+            matches += 1
+
+        if matches == len(pattern):
+            return text_index
+
+    return None
 
 def find_all_indexes(text, pattern):
     """Return a list of starting indexes of all occurrences of pattern in text,
@@ -25,7 +46,29 @@ def find_all_indexes(text, pattern):
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
     # TODO: Implement find_all_indexes here (iteratively and/or recursively)
+    if pattern == '':
+        return [index for index, _ in enumerate(text)]
 
+    if indexes is None or offset is None:
+        indexes = []
+        offset = 0
+
+    # Find pattern index starting from given offset.
+    found_index = find_index(text, pattern, offset)
+
+    # Base case. If no pattern found, end recursive cycle.
+    if found_index is None:
+        return indexes
+
+    indexes.append(found_index)
+
+    # Skip unnecessary characters
+    offset = found_index + len(pattern)
+    # But account for overlapping patterns.
+    if len(pattern) > 1:
+        offset -= 1
+
+    return find_all_indexes(text, pattern, indexes, offset)
 
 def test_string_algorithms(text, pattern):
     found = contains(text, pattern)
@@ -36,6 +79,8 @@ def test_string_algorithms(text, pattern):
     # TODO: Uncomment these lines after you implement find_all_indexes
     indexes = find_all_indexes(text, pattern)
     print('find_all_indexes({!r}, {!r}) => {}'.format(text, pattern, indexes))
+
+
 
 
 def main():
