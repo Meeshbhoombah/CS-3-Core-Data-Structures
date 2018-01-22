@@ -79,6 +79,18 @@ class LinkedList(object):
         if not (0 <= index < self.size):
             raise ValueError('List index out of range: {}'.format(index))
         # TODO: Find the node at the given index and return its data
+        # Check if the given index is out of range and if so raise an error
+        if not (0 <= index < self.size):
+            raise ValueError('List index out of range: {}'.format(index))
+
+        # Find node.
+        node = self.head  # O(1)
+        node_index = 0  # O(1)
+        while node_index != index:  # O(n)
+            node_index += 1  # O(1)
+            node = node.next  # O(1) time to reassign variable
+
+        return node.data  # O(1)
 
     def insert_at_index(self, index, item):
         """Insert the given item at the given index in this linked list, or
@@ -89,6 +101,38 @@ class LinkedList(object):
         if not (0 <= index <= self.size):
             raise ValueError('List index out of range: {}'.format(index))
         # TODO: Find the node before the given index and insert item after it
+        # Setup nodes
+        current_node = self.head  # O(1)
+        previous_node = None  # O(1)
+        new_node = Node(item)
+
+        # New linkedlist, so all we need to do is append.
+        if self.size == 0:  # O(1)
+            self.append(item)  # O(1), adds a Node to an empty list
+
+        # Insert at head.
+        elif index == 0:
+            self.prepend(item)  # O(1), prepends item.
+
+        # Insert at tail.
+        elif index == self.size:
+            self.append(item)  # O(1), creates new tail
+
+        # Insert normally
+        else:
+            # Find adjacent nodes.
+            node_index = 0  # O(1)
+            while node_index != index:  # O(n)
+                node_index += 1  # O(1)
+                previous_node = current_node  # O(1)
+                current_node = current_node.next  # O(1)
+
+            # Insert new node between adjacent nodes.
+            new_node.next = current_node  # O(1)
+            previous_node.next = new_node  # O(1)
+
+            # Update size.
+            self.size += 1  # O(1)
 
     def append(self, item):
         """Insert the given item at the tail of this linked list.
@@ -145,7 +189,17 @@ class LinkedList(object):
         Worst case running time: ??? under what conditions? [TODO]"""
         # TODO: Find the node containing the given old_item and replace its
         # data with new_item, without creating a new node object
-        pass
+        if self.is_empty():
+            raise ValueError("Empty list.")
+
+        if self.head.data == item:
+            self.head.data = new_item
+            return
+
+        if self.tail.data == item:
+            self.tail.data = new_item
+            return
+
 
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError.
