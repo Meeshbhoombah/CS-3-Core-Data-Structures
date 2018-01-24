@@ -104,7 +104,7 @@ class ArrayQueue(object):
         if self.is_empty():
             raise ValueError
         else:
-            return self.list.pop(0)
+            return self.list = self.list[1:]
 
 
 # Implement LinkedQueue and ArrayQueue above, then change the assignment below
